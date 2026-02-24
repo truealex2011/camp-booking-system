@@ -9,7 +9,8 @@ bcrypt==4.1.2
 Werkzeug==3.0.1
 
 # Database
-SQLAlchemy==2.0.25
+SQLAlchemy>=2.0.36
+
 
 # Forms and validation
 WTForms==3.1.1
@@ -26,3 +27,4 @@ python-dotenv==1.0.0
 
 # Production server
 gunicorn==21.2.0
+
