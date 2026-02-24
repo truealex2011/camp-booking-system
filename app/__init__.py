@@ -34,8 +34,10 @@ def create_app(config_name=None):
     
     # Create database tables
     with app.app_context():
+        import os
+        os.makedirs('/tmp', exist_ok=True)
         db.create_all()
-    
+
     # Register blueprints
     from app.routes import public, admin
     app.register_blueprint(public.bp)
@@ -62,3 +64,4 @@ def register_error_handlers(app):
     def internal_error(error):
         db.session.rollback()
         return {'error': True, 'message': 'Произошла ошибка. Пожалуйста, попробуйте позже.', 'code': 'INTERNAL_ERROR'}, 500
+
