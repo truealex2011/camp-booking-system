@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание на {{ date.strftime('%d.%m.%Y') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/print.css') }}">
+</head>
+<body>
+    <div class="print-header">
+        <h1>Расписание записей на {{ date.strftime('%d.%m.%Y') }}</h1>
+        <p class="print-date">Распечатано: {{ date.today().strftime('%d.%m.%Y %H:%M') }}</p>
+    </div>
+    
+    <table class="print-table">
+        <thead>
+            <tr>
+                <th>Время</th>
+                <th>Услуга</th>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Лагерь</th>
+                <th>Номер брони</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.time_slot }}</td>
+                <td>{{ booking.service.name if booking.service else '-' }}</td>
+                <td>{{ booking.last_name }} {{ booking.first_name }}</td>
+                <td>{{ booking.phone }}</td>
+                <td>{{ booking.camp }}</td>
+                <td>{{ booking.reference_number }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if not bookings %}
+    <div class="no-bookings">
+        <p>На сегодня нет подтвержденных записей</p>
+    </div>
+    {% endif %}
+    
+    <div class="print-footer">
+        <p>Всего записей: {{ bookings|length }}</p>
+        <p>Адрес: ул. Петра Ломако 4а</p>
+    </div>
+    
+    <div class="no-print">
+        <button onclick="window.print()" class="btn btn-primary">🖨️ Печать</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">← Назад</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Запись в лагерь Таежный{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="{{ url_for('public.index') }}" class="logo-link">
+                    <h1>Лагерь «Таежный»</h1>
+                    <p class="subtitle">Онлайн-запись на услуги</p>
+                </a>
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('public.index') }}" class="home-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Главная</span>
+                </a>
+                <a href="{{ url_for('admin.login') }}" class="admin-link">Администратор</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <p>&copy; 2026 МАОУ СШ 157. Все права защищены.</p>
+                </div>
+                <div class="footer-developer">
+                    <p class="developer-title">Разработчик:</p>
+                    <div class="developer-contacts">
+                        <a href="tel:+79135194045" class="contact-link">
+                            <span class="contact-icon">📱</span>
+                            +7 (913) 519-40-45
+                        </a>
+                        <a href="https://t.me/TrueAlex1" target="_blank" class="contact-link">
+                            <span class="contact-icon">💬</span>
+                            @TrueAlex1
+                        </a>
+                        <a href="mailto:TrueAlex2011@gmail.com" class="contact-link">
+                            <span class="contact-icon">✉️</span>
+                            TrueAlex2011@gmail.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

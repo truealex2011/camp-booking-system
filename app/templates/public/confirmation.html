@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Подтверждение бронирования{% endblock %}
+
+{% block content %}
+<div class="confirmation-container">
+    <div class="success-icon">✓</div>
+    
+    <h2>Ваша заявка принята!</h2>
+    
+    <div class="confirmation-details">
+        <p class="lead">Будем ждать вас по адресу:</p>
+        <p class="address"><strong>ул. Петра Ломако 4а</strong></p>
+        
+        <div class="booking-info">
+            <h3>Детали бронирования</h3>
+            <p><strong>Номер бронирования:</strong> {{ booking.reference_number }}</p>
+            <p><strong>Услуга:</strong> {{ booking.service.name }}</p>
+            <p><strong>Дата:</strong> {{ booking.date.strftime('%d.%m.%Y') }}</p>
+            <p><strong>Время:</strong> {{ booking.time_slot }}</p>
+            <p><strong>Лагерь:</strong> {{ booking.camp }}</p>
+            <p><strong>ФИО:</strong> {{ booking.last_name }} {{ booking.first_name }}</p>
+            <p><strong>Телефон:</strong> {{ booking.phone }}</p>
+        </div>
+        
+        <div class="required-documents">
+            <h3>Необходимые документы</h3>
+            <ol>
+                {% for document in required_documents %}
+                <li>{{ document }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    
+    <a href="{{ url_for('public.index') }}" class="btn btn-primary">Вернуться на главную</a>
+</div>
+
+<style>
+.confirmation-container { max-width: 700px; margin: 40px auto; text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 20px rgba(0,0,0,0.1); }
+.success-icon { width: 80px; height: 80px; margin: 0 auto 20px; background: #4CAF50; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: bold; }
+.confirmation-container h2 { color: #4CAF50; margin-bottom: 30px; }
+.lead { font-size: 18px; color: #666; margin-bottom: 10px; }
+.address { font-size: 24px; color: #1565C0; margin-bottom: 30px; }
+.booking-info, .required-documents { text-align: left; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px; }
+.booking-info h3, .required-documents h3 { color: #1565C0; margin-bottom: 15px; }
+.booking-info p { margin: 10px 0; }
+.required-documents ol { margin-left: 20px; }
+.required-documents li { margin: 10px 0; line-height: 1.6; }
+</style>
+{% endblock %}
