@@ -22,7 +22,11 @@ def create_app(config_name=None):
         Flask application instance
     """
     if config_name is None:
-        config_name = os.environ.get('FLASK_ENV', 'development')
+        config_name = os.environ.get('FLASK_ENV', 'production')
+    
+    # Ensure config_name is valid
+    if config_name not in config:
+        config_name = 'production'
     
     app = Flask(__name__)
     app.config.from_object(config[config_name])
@@ -36,7 +40,7 @@ def create_app(config_name=None):
     with app.app_context():
         os.makedirs('/tmp', exist_ok=True)
         db.create_all()
-
+    
     # Register blueprints
     from app.routes import public, admin
     app.register_blueprint(public.bp)
@@ -63,5 +67,3 @@ def register_error_handlers(app):
     def internal_error(error):
         db.session.rollback()
         return {'error': True, 'message': 'Произошла ошибка. Пожалуйста, попробуйте позже.', 'code': 'INTERNAL_ERROR'}, 500
-
-
